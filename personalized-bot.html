@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>EnergyChatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+  <style>
+    html, body { height: 100%; margin: 0; }
+    df-messenger { width: 100%; height: 100%; z-index: 9999; }
+  </style>
+</head>
+<body>
+  <df-messenger
+    intent="WELCOME"
+    chat-title="Personalized-Chatbot"
+    agent-id="5ac99ed1-9a70-4bec-9fa8-70b692734806"
+    language-code="en">
+  </df-messenger>
+
+  <script>
+  (function () {
+    const MAX_MS = 15000;               // stop trying after 15s
+    const start  = Date.now();
+
+    function openCX() {
+      const bubble = document.querySelector('df-messenger-chat-bubble');
+      if (bubble && typeof bubble.openChat ==<script>
+  (function () {
+    const MAX_MS = 15000;               // stop trying after 15s
+    const start  = Date.now();
+
+    function openCX() {
+      const bubble = document.querySelector('df-messenger-chat-bubble');
+      if (bubble && typeof bubble.openChat === 'function') {
+        bubble.openChat();              // official API in CX
+        return true;
+      }
+      return false;
+    }
+
+    function openES() {
+      const df = document.querySelector('df-messenger');
+      if (!df || !df.shadowRoot) return false;
+
+      const launcher = df.shadowRoot.querySelector('df-messenger-launcher');
+      if (!launcher || !launcher.shadowRoot) return false;
+
+      const btn = launcher.shadowRoot.querySelector('button');
+      if (!btn) return false;
+
+      btn.click();                      // simulate user click in ES
+      return true;
+    }
+
+    function tryOpen() {
+      if (openCX() || openES()) return;             // success
+      if (Date.now() - start > MAX_MS) return;      // give up
+      requestAnimationFrame(tryOpen);               // keep polling
+    }
+
+    // Kick off when the widget and custom elements are defined
+    function begin() {
+      if (window.customElements?.whenDefined) {
+        Promise.allSettled([
+          customElements.whenDefined('df-messenger'),
+          customElements.whenDefined('df-messenger-chat-bubble')
+        ]).finally(tryOpen);
+      } else {
+        tryOpen();
+      }
+    }
+
+    if (document.readyState === 'complete') begin();
+    else window.addEventListener('load', begin);
+
+    // Belt + suspenders: also retry once df-messenger appears in DOM
+    new MutationObserver((m, obs) => {
+      if (document.querySelector('df-messenger')) {
+        tryOpen();
+        obs.disconnect();
+      }
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  })();
+</script>= 'function') {
+        bubble.openChat();              // official API in CX
+        return true;
+      }
+      return false;
+    }
+
+    function openES() {
+      const df = document.querySelector('df-messenger');
+      if (!df || !df.shadowRoot) return false;
+
+      const launcher = df.shadowRoot.querySelector('df-messenger-launcher');
+      if (!launcher || !launcher.shadowRoot) return false;
+
+      const btn = launcher.shadowRoot.querySelector('button');
+      if (!btn) return false;
+
+      btn.click();                      // simulate user click in ES
+      return true;
+    }
+
+    function tryOpen() {
+      if (openCX() || openES()) return;             // success
+      if (Date.now() - start > MAX_MS) return;      // give up
+      requestAnimationFrame(tryOpen);               // keep polling
+    }
+
+    // Kick off when the widget and custom elements are defined
+    function begin() {
+      if (window.customElements?.whenDefined) {
+        Promise.allSettled([
+          customElements.whenDefined('df-messenger'),
+          customElements.whenDefined('df-messenger-chat-bubble')
+        ]).finally(tryOpen);
+      } else {
+        tryOpen();
+      }
+    }
+
+    if (document.readyState === 'complete') begin();
+    else window.addEventListener('load', begin);
+
+    // Belt + suspenders: also retry once df-messenger appears in DOM
+    new MutationObserver((m, obs) => {
+      if (document.querySelector('df-messenger')) {
+        tryOpen();
+        obs.disconnect();
+      }
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  })();
+</script>
+</body>
+</html>
